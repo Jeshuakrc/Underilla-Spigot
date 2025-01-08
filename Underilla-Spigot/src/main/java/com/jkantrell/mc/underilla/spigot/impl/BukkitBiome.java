@@ -1,42 +1,50 @@
 package com.jkantrell.mc.underilla.spigot.impl;
 
+import fr.formiko.mc.biomeutils.NMSBiomeUtils;
+import org.bukkit.NamespacedKey;
 import com.jkantrell.mc.underilla.core.api.Biome;
+import net.minecraft.core.Holder;
 
 public class BukkitBiome implements Biome {
 
-    //FIELDS
-    private org.bukkit.block.Biome biome_;
+    public static final BukkitBiome DEFAULT = new BukkitBiome("minecraft:plains");
+
+    // FIELDS
+    private String name;
 
 
-    //CONSTRUCTORS
-    public BukkitBiome(org.bukkit.block.Biome biome) {
-        this.biome_ = biome;
-    }
+    // // CONSTRUCTORS
+    public BukkitBiome(String name) { this.name = NMSBiomeUtils.normalizeBiomeName(name); }
 
 
-    //GETTERS
+    // GETTERS
     public org.bukkit.block.Biome getBiome() {
-        return this.biome_;
+        return io.papermc.paper.registry.RegistryAccess.registryAccess().getRegistry(io.papermc.paper.registry.RegistryKey.BIOME)
+                .get(NamespacedKey.fromString(name));
+    }
+    public net.minecraft.world.level.biome.Biome getBiomeNMS() { return NMSBiomeUtils.getBiome(this.name); }
+    public Holder<net.minecraft.world.level.biome.Biome> getBiomeHolder() {
+        return NMSBiomeUtils.getBiomeRegistry().wrapAsHolder(getBiomeNMS());
     }
 
 
-    //IMPLEMENTATIONS
+    // IMPLEMENTATIONS
     @Override
-    public String getName() {
-        return this.biome_.name();
-    }
+    public String getName() { return name; }
     @Override
     public boolean equals(Object o) {
-        if (o == null) { return false; }
-        if (this == o) { return true; }
-        if (!(o instanceof BukkitBiome bukkitBiome)) { return false; }
-        return this.biome_.equals(bukkitBiome.biome_);
+        if (o == null) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof BukkitBiome bukkitBiome)) {
+            return false;
+        }
+        return this.name.equals(bukkitBiome.name);
     }
 
     @Override
-    public String toString() {
-        return "BukkitBiome{" +
-                "biome_=" + biome_ +
-                '}';
-    }
+    public String toString() { return "BukkitBiome{" + name + '}'; }
 }

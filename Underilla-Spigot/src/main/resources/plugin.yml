@@ -1,5 +1,0 @@
-name: Underilla
-version: '${project.version}'
-main: com.jkantrell.mc.underilla.spigot.Underilla
-api-version: 1.20
-load: STARTUP
