@@ -45,6 +45,13 @@ jobs:
             touch CHANGELOG.md
           fi
 
+      - name: Remove all lines after the 2nd title in CHANGELOG.md
+        shell: pwsh
+        run: |
+          $content = Get-Content -Path CHANGELOG.md
+          $content = $content -split '# ' | Select-Object -First 3
+          Set-Content -Path CHANGELOG.md -Value $content
+
       - name: Create Release
         id: createRelease
         uses: ncipollo/release-action@v1.14.0
