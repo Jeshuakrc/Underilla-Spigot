@@ -64,7 +64,7 @@ public class CustomBiomeSource {
             // If is a cave biome that we should preserve & is below the surface of surface world.
             if (vanillaBiomeName != null && Underilla.getUnderillaConfig()
                     .isBiomeInSet(SetBiomeStringKeys.BIOME_MERGING_FROM_CAVES_GENERATION_ONLY_ON_BIOMES, vanillaBiomeName)
-                    && y < topYOfSurfaceWorld(worldSurfaceReader, x, z)) {
+                    && isUnderSurface(worldSurfaceReader, x, y, z)) {
                 String key = "cavesGeneration:" + vanillaBiomeName;
                 debug("Use vanillaBiome because it's a cavesGeneration biome: " + vanillaBiomeName + " at " + x + " " + y + " " + z);
                 biomesPlaced.put(key, biomesPlaced.getOrDefault(key, 0L) + 1);
@@ -103,6 +103,24 @@ public class CustomBiomeSource {
         String key = "error:" + BukkitBiome.DEFAULT.getName();
         biomesPlaced.put(key, biomesPlaced.getOrDefault(key, 0L) + 1);
         return BukkitBiome.DEFAULT.getBiome();
+    }
+
+    private boolean isUnderSurface(BukkitWorldReader worldSurfaceReader, int x, int y, int z) {
+        if(Underilla.getUnderillaConfig().getBoolean(BooleanKeys.BIOME_MERGING_FROM_CAVES_GENERATION_ONLY_UNDER_SURFACE)) {
+            // Merging biome below the surface only.
+            x = x - x % 4;
+            z = z - z % 4;
+            for(int i=0; i<4; i++) {
+                for(int j=0; j<4; j++) {
+                    // If the block is over the merge limit, it's not under the surface.
+                    if(y >= topYOfSurfaceWorld(worldSurfaceReader, x+i, z+j)){
+                        return false;
+                    }
+                }
+            }
+        }
+        // All blocks are under the surface (or it's configured not to check).
+        return true;
     }
 
     private int topYOfSurfaceWorld(BukkitWorldReader worldSurfaceReader, int x, int z) {

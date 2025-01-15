@@ -380,6 +380,7 @@ public class UnderillaConfig {
         PRESERVE_SURFACE_WORLD_FROM_CAVERS("carvers.preserveSurfaceWorldFromCavers", true),
         PRESERVE_LIQUID_FROM_CAVERS("carvers.preserveLiquidFromCavers", true),
         BIOME_MERGING_FROM_CAVES_GENERATION_ENABLED("biomesMerging.fromCavesGeneration.enabled", true),
+        BIOME_MERGING_FROM_CAVES_GENERATION_ONLY_UNDER_SURFACE("biomesMerging.fromCavesGeneration.onlyUnderSurface", true),
         CLEAN_BLOCKS_ENABLED("clean.blocks.enabled", true),
         CLEAN_BLOCKS_REMOVE_UNSTABLE_BLOCKS("clean.blocks.removeUnstableBlocks", true),
         CLEAN_ENTITIES_ENABLED("clean.entities.enabled", true);
