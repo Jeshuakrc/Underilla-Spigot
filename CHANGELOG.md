@@ -1,2 +1,2 @@
-# 2.0.7
-- World surface biomes can be read from top value only.
+# 2.0.9
+- Config: Aera values will be swap if min > max.

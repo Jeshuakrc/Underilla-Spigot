@@ -104,6 +104,7 @@ public class UnderillaConfig {
             }
             integerMap.put(key, value);
         }
+        swapAeraValueIfNeeded();
 
         stringMap.clear();
         for (StringKeys key : StringKeys.values()) {
@@ -170,6 +171,27 @@ public class UnderillaConfig {
         }
         if (getInt(IntegerKeys.ADAPTATIVE_MIN_HIDDEN_BLOCKS_MERGE_DEPTH) > getInt(IntegerKeys.MERGE_DEPTH)) {
             integerMap.put(IntegerKeys.ADAPTATIVE_MIN_HIDDEN_BLOCKS_MERGE_DEPTH, getInt(IntegerKeys.MERGE_DEPTH));
+        }
+    }
+
+    private void swapAeraValueIfNeeded() {
+        if (getInt(IntegerKeys.GENERATION_AREA_MIN_X) > getInt(IntegerKeys.GENERATION_AREA_MAX_X)) {
+            Underilla.warning("Min X is greater than max X. Swapping values.");
+            int temp = getInt(IntegerKeys.GENERATION_AREA_MIN_X);
+            integerMap.put(IntegerKeys.GENERATION_AREA_MIN_X, getInt(IntegerKeys.GENERATION_AREA_MAX_X));
+            integerMap.put(IntegerKeys.GENERATION_AREA_MAX_X, temp);
+        }
+        if (getInt(IntegerKeys.GENERATION_AREA_MIN_Y) > getInt(IntegerKeys.GENERATION_AREA_MAX_Y)) {
+            Underilla.warning("Min Y is greater than max Y. Swapping values.");
+            int temp = getInt(IntegerKeys.GENERATION_AREA_MIN_Y);
+            integerMap.put(IntegerKeys.GENERATION_AREA_MIN_Y, getInt(IntegerKeys.GENERATION_AREA_MAX_Y));
+            integerMap.put(IntegerKeys.GENERATION_AREA_MAX_Y, temp);
+        }
+        if (getInt(IntegerKeys.GENERATION_AREA_MIN_Z) > getInt(IntegerKeys.GENERATION_AREA_MAX_Z)) {
+            Underilla.warning("Min Z is greater than max Z. Swapping values.");
+            int temp = getInt(IntegerKeys.GENERATION_AREA_MIN_Z);
+            integerMap.put(IntegerKeys.GENERATION_AREA_MIN_Z, getInt(IntegerKeys.GENERATION_AREA_MAX_Z));
+            integerMap.put(IntegerKeys.GENERATION_AREA_MAX_Z, temp);
         }
     }
 
